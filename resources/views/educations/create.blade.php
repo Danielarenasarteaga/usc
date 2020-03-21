@@ -10,13 +10,12 @@
     <h1><i class='fa fa-user-plus'></i>Nuevo Career</h1>
     <hr>
 
-    {{ Form::open(array('url' => 'Careeres')) }}
+    {{ Form::open(array('url' => 'educations')) }}
 
     <div class="form-group">
         {{ Form::label('name', 'Nombre') }}
         {{ Form::text('name', '', array('class' => 'form-control')) }}
     </div>
-
 
     {{ Form::submit('Agregar', array('class' => 'btn btn-primary')) }}
 

@@ -10,7 +10,7 @@
     <h1><i class='fa fa-user-plus'></i>Nuevo Career</h1>
     <hr>
 
-    {{ Form::open(array('url' => 'Careeres')) }}
+    {{ Form::open(array('url' => 'careeres')) }}
 
     <div class="form-group">
         {{ Form::label('name', 'Nombre') }}
@@ -18,8 +18,9 @@
     </div>
 
     <div class="form-group">
-        {{ Form::label('typo', 'Tipo') }}
-        {{ Form::text('typo', '', array('class' => 'form-control')) }}
+        {{ Form::label('type', 'Tipo') }}
+
+        {!! Form::select('type', $educations, null, ['class' => 'form-control']) !!}
     </div>
 
 

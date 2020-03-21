@@ -14,7 +14,7 @@ class CampusController extends Controller
      */
     public function index()
     {
-        $campuses = Campus::paginate(5);
+        $campuses = Campus::paginate(10);
 
         return view('campuses.index')->with('campuses', $campuses);
     }
@@ -101,8 +101,13 @@ class CampusController extends Controller
      * @param  \App\Campus  $campus
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Campus $campus)
+    public function destroy($id)
     {
-        //
+        $item = Campus::findOrFail($id);
+        $item->delete();
+
+        return redirect()->route('campuses.index')
+            ->with('flash_message',
+             'Su registro se elimino!');
     }
 }

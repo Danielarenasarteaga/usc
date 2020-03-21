@@ -1,27 +1,24 @@
 @extends('layouts.app')
 
-@section('title', '| Edit Post')
-
 @section('content')
-<div class="row">
 
-    <div class="col-md-8 col-md-offset-2">
+<div class='col-lg-4 col-lg-offset-4'>
 
-        <h1>Edit Post</h1>
-        <hr>
-            {{ Form::model($post, array('route' => array('posts.update', $post->id), 'method' => 'PUT')) }}
-            <div class="form-group">
-            {{ Form::label('title', 'Title') }}
-            {{ Form::text('title', null, array('class' => 'form-control')) }}<br>
+    <h1><i class='fa fa-user-plus'></i>Modificar Education</h1>
+    <hr>
 
-            {{ Form::label('body', 'Post Body') }}
-            {{ Form::textarea('body', null, array('class' => 'form-control')) }}<br>
+    {{ Form::model($educationActualizar, array('route' => array('educations.update', $educationActualizar->id), 'method' => 'PUT')) }}
 
-            {{ Form::submit('Save', array('class' => 'btn btn-primary')) }}
-
-            {{ Form::close() }}
+    <div class="form-group">
+        {{ Form::label('name', 'Nombre') }}
+        {{ Form::text('name', null, array('class' => 'form-control')) }}
     </div>
-    </div>
+
+    
+    {{ Form::submit('Modificar', array('class' => 'btn btn-primary')) }}
+
+    {{ Form::close() }}
+
 </div>
 
 @endsection

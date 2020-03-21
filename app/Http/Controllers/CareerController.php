@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Career;
+use App\EducationLevel;
 use Illuminate\Http\Request;
 
 class CareerController extends Controller
@@ -14,8 +15,9 @@ class CareerController extends Controller
      */
     public function index()
     {
-        $Careeres = Career::all();
-        return view('Careeres.index')->with('Careeres', $Careeres);
+        $Careeres = Career::paginate(10);
+        $educations = EducationLevel::all()->pluck('name', 'id');
+        return view('Careeres.index')->with('Careeres', $Careeres)->with('educations', $educations);
     }
 
     /**
@@ -25,7 +27,8 @@ class CareerController extends Controller
      */
     public function create()
     {
-        return view('careeres.create');
+        $educations = EducationLevel::all()->pluck('name', 'id');
+        return view('careeres.create')->with('educations', $educations);
     }
 
     /**
@@ -66,10 +69,14 @@ class CareerController extends Controller
      * @param  \App\Career  $career
      * @return \Illuminate\Http\Response
      */
-    public function edit(Career $career)
+
+    public function edit($id)
     {
-        //
+        $careeresActualizar = career::findOrFail($id);
+        $educations = EducationLevel::all()->pluck('name', 'id');
+        return view('careeres.edit')->with('careeresActualizar', $careeresActualizar)->with('educations', $educations);
     }
+    
 
     /**
      * Update the specified resource in storage.
@@ -78,9 +85,17 @@ class CareerController extends Controller
      * @param  \App\Career  $career
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Career $career)
+    public function update(Request $request, $id)
     {
-        //
+        $inputs = $request->only('name', 'type');
+
+        $careerUpdate = Career::findOrfail($id);
+        $careerUpdate->fill($inputs)->save();
+        
+        return redirect()->route('careeres.index')
+            ->with('flash_message',
+             'Su carrera '. $careerUpdate->name.' fue modificada!');
+    
     }
 
     /**
@@ -89,8 +104,14 @@ class CareerController extends Controller
      * @param  \App\Career  $career
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Career $career)
+    public function destroy($id)
     {
-        //
+        $item = Career::findOrFail($id);
+        $item->delete();
+
+        return redirect()->route('careeres.index')
+            ->with('flash_message',
+             'Su registro se elimino!');
+         
     }
 }

@@ -29,7 +29,7 @@
                     <td>
                     <a href="{{ route('educations.edit', $Education->id) }}" class="btn btn-info pull-left" style="margin-right: 3px;">Edit</a>
 
-                    {!! Form::open(['method' => 'DELETE', 'route' => ['.destroy', $Education->id] ]) !!}
+                    {!! Form::open(['method' => 'DELETE', 'route' => ['educations.destroy', $Education->id] ]) !!}
                     {!! Form::submit('Delete', ['class' => 'btn btn-danger']) !!}
                     {!! Form::close() !!}
 

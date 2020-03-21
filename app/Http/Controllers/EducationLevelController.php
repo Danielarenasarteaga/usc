@@ -13,8 +13,10 @@ class EducationLevelController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
+ 
     {
-        $EducationLevel = EducationLevel::all();
+        $EducationLevel = EducationLevel::paginate(10);
+
         return view('educations.index')->with('EducationLevel', $EducationLevel);
     }
 
@@ -36,8 +38,19 @@ class EducationLevelController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->validate($request, [
+            'name'=>'required'
+        ]);
+
+        $inputs = $request->only('name');
+        $education = EducationLevel::create($inputs);
+
+        return redirect()->route('educations.index')
+            ->with('flash_message',
+             'Se agrego su Nivel ejecutivo.');
     }
+
+
 
     /**
      * Display the specified resource.
@@ -56,9 +69,10 @@ class EducationLevelController extends Controller
      * @param  \App\EducationLevel  $educationLevel
      * @return \Illuminate\Http\Response
      */
-    public function edit(EducationLevel $educationLevel)
+    public function edit($id)
     {
-        //
+        $educationActualizar = EducationLevel::findOrFail($id);
+        return view('educations.edit' , ["educationActualizar" => $educationActualizar]);
     }
 
     /**
@@ -68,19 +82,31 @@ class EducationLevelController extends Controller
      * @param  \App\EducationLevel  $educationLevel
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, EducationLevel $educationLevel)
+    public function update(Request $request, $id)
     {
-        //
-    }
+        $inputs = $request->only('name', 'actions');
 
-    /**
+        $educationUpdate = EducationLevel::findOrfail($id);
+        $educationUpdate->fill($inputs)->save();
+        
+        return redirect()->route('educations.index')
+            ->with('flash_message',
+             'Su Nivel educativo '. $educationUpdate->name.' fue modificado!');
+    }
+    
+     /**
      * Remove the specified resource from storage.
      *
      * @param  \App\EducationLevel  $educationLevel
      * @return \Illuminate\Http\Response
      */
-    public function destroy(EducationLevel $educationLevel)
+    public function destroy($id)
     {
-        //
+        $item = EducationLevel::findOrFail($id);
+        $item->delete();
+
+        return redirect()->route('educations.index')
+            ->with('flash_message',
+             'Su registro se elimino!');
     }
 }

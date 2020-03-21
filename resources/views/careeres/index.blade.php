@@ -7,7 +7,7 @@
 
 <div class="col-lg-10 col-lg-offset-1">
     <h1>
-        <i class="fa fa-users"></i> Carreras 
+        <i class="fa fa-users"></i> Carrer 
     </h1>
     <hr>
     <div class="table-responsive">
@@ -17,6 +17,7 @@
                 <tr>
                     <th>Nombre</th>
                     <th>Tipo</th>
+                    <th>Acciones</th>
                 </tr>
             </thead>
 
@@ -25,12 +26,12 @@
                 <tr>
 
                     <td>{{ $Career->name }}</td>
-                    <td>{{ $Career->type }}</td>
+                    <td>{{ $educations[$Career->type] }}</td>
                                        
                     <td>
                     <a href="{{ route('careeres.edit', $Career->id) }}" class="btn btn-info pull-left" style="margin-right: 3px;">Edit</a>
 
-                    {!! Form::open(['method' => 'DELETE', 'route' => ['Careeres.destroy', $Career->id] ]) !!}
+                    {!! Form::open(['method' => 'DELETE', 'route' => ['careeres.destroy', $Career->id] ]) !!}
                     {!! Form::submit('Delete', ['class' => 'btn btn-danger']) !!}
                     {!! Form::close() !!}
 
