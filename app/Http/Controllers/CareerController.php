@@ -17,7 +17,7 @@ class CareerController extends Controller
     {
         $Careeres = Career::paginate(10);
         $educations = EducationLevel::all()->pluck('name', 'id');
-        return view('Careeres.index')->with('Careeres', $Careeres)->with('educations', $educations);
+        return view('careeres.index')->with('Careeres', $Careeres)->with('educations', $educations);
     }
 
     /**

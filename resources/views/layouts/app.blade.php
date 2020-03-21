@@ -49,10 +49,12 @@
                     <!-- Left Side Of Navbar -->
                     <ul class="nav navbar-nav">
                         <li><a href="{{ url('/') }}">Home</a></li>
+                        @if (!Auth::guest()) 
                         <li><a href="{{ route('users.index') }}">Usuarios</a></li>
                         <li><a href="{{ route('campuses.index') }}">Campus</a></li>
                         <li><a href="{{ route('careeres.index') }}">Carreras</a></li>
                         <li><a href="{{ route('educations.index') }}">Nivel educativo</a></li>
+                        @endif
                     </ul>
 
                     <!-- Right Side Of Navbar -->
