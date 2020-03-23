@@ -27,3 +27,4 @@ Route::resource('permissions', 'PermissionController');
 Route::resource('campuses', 'CampusController');
 Route::resource('careeres', 'CareerController');
 Route::resource('educations', 'EducationLevelController');
+Route::resource('students', 'StudentController');
