@@ -25,8 +25,8 @@
     </div>
 
     <div class="form-group">
-        {{ Form::label('cell-phone', 'Teléfono celular') }}
-        {{ Form::text('cell-phone', '', array('class' => 'form-control')) }}
+        {{ Form::label('cell phone', 'Teléfono celular') }}
+        {{ Form::text('cell phone', '', array('class' => 'form-control')) }}
     </div>
 
     <div class="form-group">
