@@ -10,25 +10,28 @@
 
     <title>{{ config('app.name', 'Laravel') }}</title>
 
-    <!-- Styles -->
-    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-bootgrid/1.3.1/jquery.bootgrid.min.css" integrity="sha256-i397iDijTcJqMf2j733J1b+WKakC2U8Y3k2eMScEugA=" crossorigin="anonymous" />
+
+    <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+
+    <link rel="stylesheet" href="{{ asset('jAlert/dist/jAlert.css') }}">
 
     <link href="{{ asset('css/styles.css') }}" rel="stylesheet">
+    <link href="{{ asset('datetimepicker/build/jquery.datetimepicker.min.css') }}" rel="stylesheet">
 
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
-    
-
-    <!-- Scripts -->
-    <script>
-        window.Laravel = {!! json_encode([
-            'csrfToken' => csrf_token(),
-        ]) !!};
-    </script>
-    <script src="https://use.fontawesome.com/9712be8772.js"></script>
+    @yield('style')
 </head>
 <body>
+    <div class="div-loader" id="loading">
+        <div class="loader"></div>
+    </div>
     <div id="app">
-        <nav class="navbar navbar-default navbar-static-top">
+        <nav class="navbar navbar-inverse navbar-static-top">
             <div class="container">
                 <div class="navbar-header">
 
@@ -42,20 +45,19 @@
 
                     <!-- Branding Image -->
                     <a class="navbar-brand" href="{{ url('/') }}">
-                        {{ config('app.name', 'Laravel') }}
+                        <img src="{{asset('images/ic_logo.png')}}" alt="Logo" style="with:100px;">
                     </a>
                 </div>
 
                 <div class="collapse navbar-collapse" id="app-navbar-collapse">
                     <!-- Left Side Of Navbar -->
                     <ul class="nav navbar-nav">
-                        <li><a href="{{ url('/') }}">Home</a></li>
-                        @if (!Auth::guest()) 
-                        <li><a href="{{ route('users.index') }}">Usuarios</a></li>
-                        <li><a href="{{ route('campuses.index') }}">Campus</a></li>
-                        <li><a href="{{ route('careeres.index') }}">Carreras</a></li>
-                        <li><a href="{{ route('educations.index') }}">Nivel educativo</a></li>
-                        <li><a href="{{ route('students.index') }}">Estudiantes</a></li>
+                        @if (!Auth::guest())
+                        <li><a href="{{ route('users.index') }}">{{ __('Users') }}</a></li>
+                        <li><a href="{{ route('campuses.index') }}">{{ __('Campus') }}</a></li>
+                        <li><a href="{{ route('careeres.index') }}">{{ __('Careers') }}</a></li>
+                        <li><a href="{{ route('educations.index') }}">{{ __('Education Level') }}</a></li>
+                        <li><a href="{{ route('students.index') }}">{{ __('Students') }}</a></li>
                         @endif
                     </ul>
 
@@ -63,8 +65,7 @@
                     <ul class="nav navbar-nav navbar-right">
                         <!-- Authentication Links -->
                         @if (Auth::guest())
-                            <li><a href="{{ route('login') }}">Login</a></li>
-                            <li><a href="{{ route('register') }}">Register</a></li>
+                            <li><a href="{{ route('login') }}">{{ __('Login') }}</a></li>
                         @else
                             <li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
@@ -94,15 +95,17 @@
             </div>
         </nav>
 
-        @if(Session::has('flash_message'))
-            <div class="container">      
-                <div class="alert alert-success"><em> {!! session('flash_message') !!}</em>
-                </div>
+        <div class="container" id="divSuccess">
+            <div class="alert alert-success">
             </div>
-        @endif 
+        </div>
+        <div class="container" id="divError">
+            <div class="alert alert-warning">
+            </div>
+        </div>
 
         <div class="row">
-            <div class="col-md-8 col-md-offset-2">              
+            <div class="col-md-8 col-md-offset-2">
                 @include ('errors.list') {{-- Including error file --}}
             </div>
         </div>
@@ -111,9 +114,58 @@
 
     </div>
 
-    <!-- Scripts -->
-    <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd" crossorigin="anonymous"></script>
-    
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-bootgrid/1.3.1/jquery.bootgrid.js" integrity="sha256-ASBoVF7YsFeFNsTSQXGollow0nMkiNhagGJF4/h58sQ=" crossorigin="anonymous"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-bootgrid/1.3.1/jquery.bootgrid.fa.min.js" integrity="sha256-u/DZtNLWZSvkNdIL4PTQzEJUAFLzM758asxZnhd+5R4=" crossorigin="anonymous"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/1000hz-bootstrap-validator/0.11.9/validator.min.js" integrity="sha256-dHf/YjH1A4tewEsKUSmNnV05DDbfGN3g7NMq86xgGh8=" crossorigin="anonymous"></script>
+
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js" integrity="sha256-R4pqcOYV8lt7snxMQO/HSbVCFRPMdrhAFMH+vr9giYI=" crossorigin="anonymous"></script>
+
+    <script src="{{ asset('jAlert/dist/jAlert.min.js')}}"></script>
+    <script src="{{ asset('js/jquery.combobox.js')}}"></script>
+    <script src="{{ asset('datetimepicker/build/jquery.datetimepicker.full.min.js')}}"></script>
+
+
+    <script>
+        window.Laravel = {!! json_encode([
+            'csrfToken' => csrf_token(),
+        ]) !!};
+
+        function divSuccessShow(message) {
+            $("#divSuccess div").html(message);
+            $("#divSuccess").show(500);
+
+            setTimeout(function() {
+                $("#divSuccess").hide(500);
+            }, 5000);
+        };
+
+        function divErrorShow(message) {
+            $("#divError div").html(message);
+            $("#divError").show(500);
+
+            setTimeout(function() {
+                $("#divError").hide(500);
+            }, 5000);
+        };
+
+        $(function() {
+            $(document).ready(function() {
+                $("#divSuccess").hide();
+                $("#divError").hide();
+            });
+        });
+    </script>
+    @yield('script')
+
 </body>
 </html>

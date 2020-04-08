@@ -1,52 +1,68 @@
-{{-- \resources\views\users\index.blade.php --}}
+{{-- \resources\views\lines\index.blade.php --}}
 @extends('layouts.app')
 
-@section('title', '| Users')
+@section('title', '| Usuarios')
+
+@section('style')
+    <style type="text/css">
+        .cel-text-vertical-middle {
+            vertical-align: middle !important;
+        }
+
+        .cel-commands {
+            width: 100px !important;
+        }
+
+        .divAdd {
+            width: 100px;
+            position: absolute;
+            left: 0px;
+        }
+
+        .img_radius {
+            height: 50px;
+           border-radius: 50%;
+        }
+    </style>
+@endsection
 
 @section('content')
 
-<div class="col-lg-10 col-lg-offset-1">
-    <h1><i class="fa fa-users"></i> User Administration <a href="{{ route('roles.index') }}" class="btn btn-default pull-right">Roles</a>
-    <a href="{{ route('permissions.index') }}" class="btn btn-default pull-right">Permissions</a></h1>
-    <hr>
-    <div class="table-responsive">
-        <table class="table table-bordered table-striped">
+<div class="container">
 
-            <thead>
-                <tr>
-                    <th>Name</th>
-                    <th>Email</th>
-                    <th>Date/Time Added</th>
-                    <th>User Roles</th>
-                    <th>Operations</th>
-                </tr>
-            </thead>
+    <h3 style="font-weight: bold;">
+        <i class="fa fa-key"></i> Usuarios
+    </h3>
 
-            <tbody>
-                @foreach ($users as $user)
-                <tr>
-
-                    <td>{{ $user->name }}</td>
-                    <td>{{ $user->email }}</td>
-                    <td>{{ $user->created_at->format('F d, Y h:ia') }}</td>
-                    <td>{{  $user->roles()->pluck('name')->implode(' ') }}</td>{{-- Retrieve array of roles associated to a user and convert to string --}}
-                    <td>
-                    <a href="{{ route('users.edit', $user->id) }}" class="btn btn-info pull-left" style="margin-right: 3px;">Edit</a>
-
-                    {!! Form::open(['method' => 'DELETE', 'route' => ['users.destroy', $user->id] ]) !!}
-                    {!! Form::submit('Delete', ['class' => 'btn btn-danger']) !!}
-                    {!! Form::close() !!}
-
-                    </td>
-                </tr>
-                @endforeach
-            </tbody>
-
-        </table>
-    </div>
-
-    <a href="{{ route('users.create') }}" class="btn btn-success">Add User</a>
+    <form id="frmExport" method="get">
+        <input type="hidden" id="searchPhrase" name="searchPhrase">
+        <input type="hidden" id="searchRole" name="searchRole">
+        <input type="hidden" id="searchLine" name="searchLine">
+    </form>
+    <table id="grid-data" class="table table-condensed table-hover table-striped">
+        <thead>
+            <tr>
+                <th data-column-id="id" data-type="numeric" data-visible="false">id</th>
+                <th data-column-id="role" data-css-class="cel-text-vertical-middle" data-header-css-class="cel-text-vertical-middle">{{ __('Role') }}</th>
+                <th data-column-id="picture" data-formatter="picture" data-sortable="false">{{ __('Picture') }}</th>
+                <th data-column-id="name" data-css-class="cel-text-vertical-middle" data-header-css-class="cel-text-vertical-middle">{{ __('Name') }}</th>
+                <th data-column-id="email" data-css-class="cel-text-vertical-middle" data-header-css-class="cel-text-vertical-middle">{{ __('Email') }}</th>
+                <th data-column-id="commands" data-formatter="commands" data-sortable="false" data-css-class="cel-commands cel-text-vertical-middle" data-header-css-class="cel-commands cel-text-vertical-middle">{{ __('Actions') }}</th>
+            </tr>
+        </thead>
+    </table>
 
 </div>
 
+@include ('users.create')
+
+@endsection
+
+@section('script')
+
+    <script type="text/javascript">
+        var roles = JSON.parse($('<textarea />').html("{{ $roles }}").text());
+        var campus = JSON.parse($('<textarea />').html("{{ $campus }}").text());
+    </script>
+    <script src="{{ asset('modules/users/index.js') }}"></script>
 @endsection

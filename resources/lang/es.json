@@ -1,0 +1,31 @@
+{
+    "Login": "Iniciar sesión",
+    "E-Mail Address": "Correo",
+    "Remember Me": "Recordarme",
+    "Forgot Your Password?": "¿Olvidaste tu contraseña?",
+
+    "Users": "Usuarios",
+    "Campus": "Plantel",
+    "Careers": "Carreras",
+    "Education Level": "Nivel Educativo",
+    "Students": "Estudiantes",
+
+    "Picture": "Foto",
+    "Name": "Nombre",
+    "Email": "Correo",
+    "Role": "Rol",
+    "Actions": "Acciones",
+    "Save": "Guardar",
+
+    "The role is required": "El rol es requerido",
+    "The name is required": "El nombre es requerido",
+    "The campus is required": "El plantel es requerido",
+    "Mail is required": "El correo es requerido",
+    "The email I entered has already been used": "El email que ingreso ya fue utilizado",
+
+    "Your user registered correctly": "Su usuario se registro correctamente",
+
+
+
+    "Password": "Contraseña"
+ }

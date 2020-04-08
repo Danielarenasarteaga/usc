@@ -1,30 +1,42 @@
-@extends('layouts.app')
-
-@section('title', '| Create New Post')
-
-@section('content')
-    <div class="row">
-        <div class="col-md-8 col-md-offset-2">
-
-        <h1>Create New Post</h1>
-        <hr>
-
-    {{-- Using the Laravel HTML Form Collective to create our form --}}
-        {{ Form::open(array('route' => 'posts.store')) }}
-
-        <div class="form-group">
-            {{ Form::label('title', 'Title') }}
-            {{ Form::text('title', null, array('class' => 'form-control')) }}
-            <br>
-
-            {{ Form::label('body', 'Post Body') }}
-            {{ Form::textarea('body', null, array('class' => 'form-control')) }}
-            <br>
-
-            {{ Form::submit('Create Post', array('class' => 'btn btn-success btn-lg btn-block')) }}
-            {{ Form::close() }}
-        </div>
-        </div>
+<div  class="modal fade" tabindex="-1" role="dialog" id="modalCreate">
+    <div class="modal-dialog" role="document">
+        {{ Form::open(array('class' => 'modal-content', 'id' => 'frmRegister')) }}
+            <div class="modal-header">
+                <button aria-label="Close" class="close" data-dismiss="modal" type="button">
+                    <span aria-hidden="true">
+                        ×
+                    </span>
+                </button>
+                <h4 class="modal-title" id="myModalLabel">
+                    <i class="fa fa-key"></i> Agregar usuario
+                </h4>
+            </div>
+            <div class="modal-body">
+                <div class="alert alert-danger" role="alert" id="divModalError">
+                </div>
+                <div class="form-group">
+                    {{ Form::label('role', __('Role')) }}
+                    {{ Form::select('role', [], '', array('class' => 'form-control', 'required' => 'required')) }}
+                </div>
+                <div class="form-group">
+                    {{ Form::label('name', __('Name')) }}
+                    {{ Form::text('name', '', array('class' => 'form-control', 'required' => 'required')) }}
+                </div>
+                <div class="form-group">
+                    {{ Form::label('email', __('Email')) }}
+                    {{ Form::text('email', '', array('class' => 'form-control', 'required' => 'required')) }}
+                </div>
+                <div class="form-group">
+                    {{ Form::label('campus', __('Campus')) }}
+                    {{ Form::select('campus', [], '', array('class' => 'form-control', 'required' => 'required')) }}
+                </div>
+            </div>
+            <div class="modal-footer">
+                {{ Form::submit(__('Save'), array('class' => 'btn btn-primary')) }}
+                <button class="btn btn-secondary" data-dismiss="modal" type="button">
+                    Cancelar
+                </button>
+            </div>
+        {{ Form::close() }}
     </div>
-
-@endsection
+</div>
